@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>UserPage</ion-title>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="forumlario">
+    <ion-segment-button value="login">
+      Login
+    </ion-segment-button>
+    <ion-segment-button value="cadastro">
+      Cadastro
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content padding>
+  <div [ngSwitch]="forumlario">
+    <!-- CADASTRO -->
+    <ion-card padding *ngSwitchCase="'cadastro'">
+      <ion-list>
+        <div class="campo-stacked">
+            <ion-label class="label-stacked" stacked>ID</ion-label>
+            <ion-input  type="text" placeholder="Exemplo: 38938" [(ngModel)]="login.cid"></ion-input>
+        </div>
+        <div class="campo-stacked">
+            <ion-label class="label-stacked" stacked>Nome</ion-label>
+            <ion-input  type="text" placeholder="Exemplo: Frank Sherman Land" [(ngModel)]="login.nome"></ion-input>
+        </div>
+        <div class="campo-stacked">
+            <ion-label class="label-stacked" stacked>Senha</ion-label>
+            <ion-input type="password" placeholder="Uma senha forte, como você!" [(ngModel)]="login.senha"></ion-input>
+        </div>
+        <div class="campo-stacked">
+          <ion-label class="label-stacked" stacked>Email</ion-label>
+          <ion-input type="email" placeholder="Digite seu email" [(ngModel)]="login.email"></ion-input>
+        </div>
+        <div class="campo-stacked">
+          <ion-label class="label-stacked" stacked>Capítulo</ion-label>
+          <ion-input type="email" placeholder="Digite o número de seu Capítulo" [(ngModel)]="login.capitulo"></ion-input>
+        </div>
+        <button ion-button block (click)="cadastrar()">Cadastrar</button>
+      </ion-list>
+    </ion-card>
+    <!-- LOGIN -->
+    <ion-card padding *ngSwitchCase="'login'">
+      <ion-list>
+        <div class="campo-stacked">
+            <ion-label class="label-stacked" stacked>ID</ion-label>
+            <ion-input  type="text" placeholder="Exemplo: 38938" [(ngModel)]="login.cid"></ion-input>
+        </div>
+        <div class="campo-stacked">
+            <ion-label class="label-stacked" stacked>Senha</ion-label>
+            <ion-input type="password" placeholder="Se lembra da sua senha?" [(ngModel)]="login.senha"></ion-input>
+        </div>
+        <button ion-button block (click)="logar()">Logar</button>
+      </ion-list>
+    </ion-card>
+  </div>
+</ion-content>

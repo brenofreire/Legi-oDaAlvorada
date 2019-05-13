@@ -1,0 +1,31 @@
+ion-title {
+    text-transform: uppercase;
+}
+.toolbar-background {
+    background-color: #ce9e72;
+    color: #fff;
+}
+.list-md {
+    * {
+        font-size: 1.15em !important;
+    }
+    &::placeholder {
+        
+    }
+    .campo-stacked {
+        border: 2px solid #ce9e72;
+        padding: 5px;
+        margin: 15px 0;
+        border-radius: 5px;
+        .label-stacked {
+            text-transform: uppercase;
+            background-color: #fff;
+            margin-top: -15px;
+            display: table;
+            padding: 0 5px;
+        }
+    }
+    .text-input-md {
+        margin: 0;
+    }
+}
