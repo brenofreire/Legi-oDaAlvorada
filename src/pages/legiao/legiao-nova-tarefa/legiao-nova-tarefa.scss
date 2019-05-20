@@ -1,0 +1,19 @@
+page-legiao-nova-tarefa {
+    .select-md {
+        padding: 0 !important;
+        overflow: hidden;
+        .select-text {
+            font-size: 0.75em !important;
+        }
+        .item-cover {
+            padding: 0px !important;
+        } 
+        button {
+            padding: 0 !important;
+            text-align: left !important;
+        }
+        .select-icon {
+            width: 20px;
+        }
+    }
+}

@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nova Atividade</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div class="loader" *ngIf="!page_options.loaded">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+  <ion-list *ngIf="page_options.loaded && !page_options.retorno_cadastro.ok">
+    <!-- nome -->
+    <div class="campo-stacked">
+      <ion-label class="label-stacked" stacked>Nome</ion-label>
+      <ion-input type="text" placeholder="Ex: Campanha do Toddy..." [(ngModel)]="tarefa.nome"></ion-input>
+    </div>
+    <!-- tipo -->
+    <div class="campo-stacked">
+      <ion-label class="label-stacked" for="tipo" stacked>Tipo</ion-label>
+      <ion-item no-lines no-padding>
+        <ion-select [(ngModel)]="tarefa.codigo"  name="tipo" placeholder="Escolha um tipo...">
+          <ion-option value="null" checked>Selecionar</ion-option>
+          <ion-option *ngFor="let tipo of page_options.tipos" [value]="tipo.codigo" >{{ tipo.tipo }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <!-- pontuação -->
+    <div class="campo-stacked">
+      <ion-label class="label-stacked" stacked>Pontuação</ion-label>
+      <ion-input type="text" placeholder="Ex: 40" [(ngModel)]="tarefa.pontuacao"></ion-input>
+    </div>
+    <!-- cnie -->
+    <div class="campo-stacked">
+      <ion-label class="label-stacked" for="cnie" stacked>CNIE</ion-label>
+      <ion-item no-lines no-padding>
+        <ion-select [(ngModel)]="tarefa.cnie" name="cnie" placeholder="Faz parte da CNIE?">
+          <ion-option value="1" selected>Sim</ion-option>
+          <ion-option value="0" selected>Não</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <!-- lux -->
+    <div class="campo-stacked">
+      <ion-label class="label-stacked" for="tipo" stacked>Tarefa LUX</ion-label>
+      <ion-item no-lines no-padding>
+        <ion-select [(ngModel)]="tarefa.lux" name="tipo" placeholder="Faz parte do módulo LUX?">
+          <ion-option value="1" selected>Sim</ion-option>
+          <ion-option value="0" selected>Não</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <button ion-button block [disabled]="tarefa.nome.length < 4" (click)="cadastrarTarefa()">Enviar</button>
+  </ion-list>
+  <ion-card class="mensagem_retorno" *ngIf="page_options.retorno_cadastro.ok">
+    {{ page_options.retorno_cadastro.mensagem }}
+  </ion-card>
+</ion-content>
