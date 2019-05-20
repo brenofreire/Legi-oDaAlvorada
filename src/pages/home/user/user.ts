@@ -9,7 +9,7 @@ import { ApiProvider } from '../../../providers/api/api';
   templateUrl: 'user.html',
 })
 export class UserPage {
-  public login:object = {
+  public login: object = {
     cid: null,
     senha: null,
     email: null,
@@ -19,11 +19,11 @@ export class UserPage {
     mostrar_cadastrar: null,
     usuario_esta_logado: false,
   }
-  public formulario = 'login';
+  public formulario: string = 'login';
   public usuario_logado: object = {};
-  
+
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public api: ApiProvider,
     public toastCtrl: ToastController,
@@ -31,22 +31,18 @@ export class UserPage {
     public storage: Storage,
     public modalCtrl: ModalController
   ) {
-    this.formulario = 'login';
-    console.log(this.formulario);   
     this.storage.get('cadastro').then(data => {
-      this.page_options.mostrar_cadastrar = !data; 
+      this.page_options.mostrar_cadastrar = !data;
     });
     this.storage.get('usuario-logado').then(usuario_logado => {
-      console.log(usuario_logado);
       this.usuario_logado = usuario_logado ? usuario_logado : false;
       this.page_options.usuario_esta_logado = true;
     });
     this.events.subscribe('usuario_logou', (logado) => {
       this.page_options.usuario_esta_logado = logado ? logado : false;
-      console.log(logado);
     });
   }
-  cadastrar(){
+  cadastrar() {
     this.api.post('conta/cadastrar', this.login).then(cadastrar => {
       let toast_sucesso_cadastro = this.toastCtrl.create({
         message: cadastrar['mensagem'],
@@ -70,17 +66,26 @@ export class UserPage {
       toast_erro_cadastro.present();
     })
   }
-  logar(){
+  logar() {
     this.api.post('conta/logar', this.login).then(logar => {
-      this.storage.set('usuario-logado', logar);
-      this.events.publish('usuario_logou', true);
+      if (logar['ok'] == true) {
+        this.storage.set('usuario-logado', logar);
+        this.events.publish('usuario_logou', true);
+      } else {
+        let toast_erro_login = this.toastCtrl.create({
+          message: "Houve um erro inesperado ao logar :(",
+          duration: 3000,
+          position: 'top'
+        });
+        toast_erro_login.present();
+      }
     }).catch(error => {
       let toast_erro_login = this.toastCtrl.create({
-        message: error['mensagem'],
+        message: error['erro'],
         duration: 3000,
         position: 'top'
       });
-      toast_erro_login.present();  
+      toast_erro_login.present();
     });
   }
 }
