@@ -2,30 +2,44 @@ ion-title {
     text-transform: uppercase;
 }
 .toolbar-background {
-    background-color: #ce9e72;
+    background-color: #5c2018;
     color: #fff;
+}    
+.loader {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
 }
 .list-md {
-    * {
-        font-size: 1.15em !important;
-    }
-    &::placeholder {
-        
-    }
     .campo-stacked {
-        border: 2px solid #ce9e72;
+        border: 2px solid #d4a594;
         padding: 5px;
         margin: 15px 0;
         border-radius: 5px;
+        .item-md {
+            
+            max-height: 20px !important;
+            min-height: 20px !important;
+        }
         .label-stacked {
             text-transform: uppercase;
             background-color: #fff;
             margin-top: -15px;
             display: table;
             padding: 0 5px;
+            color: #d4a594;
         }
     }
     .text-input-md {
         margin: 0;
     }
+}
+ion-select {
+    max-width: 100% !important;
+    padding: 3x !important;
+    vertical-align: baseline;
 }

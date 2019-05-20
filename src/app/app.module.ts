@@ -14,6 +14,8 @@ import { ApiProvider } from '../providers/api/api';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { UserPage } from '../pages/home/user/user';
+import { ToolsProvider } from '../providers/tools/tools';
+import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadastros';
 
 
 @NgModule({
@@ -23,7 +25,7 @@ import { UserPage } from '../pages/home/user/user';
     TabsPage,
     LegiaoPage,
     LuxPage,
-    UserPage
+    UserPage,
   ],
   imports: [
     BrowserModule,
@@ -38,13 +40,14 @@ import { UserPage } from '../pages/home/user/user';
     TabsPage,
     LegiaoPage,
     LuxPage,
-    UserPage
+    UserPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiProvider
+    ApiProvider,
+    ToolsProvider
   ]
 })
 export class AppModule {}
