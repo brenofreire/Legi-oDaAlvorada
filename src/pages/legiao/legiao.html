@@ -14,8 +14,10 @@
         <img src="https://loremflickr.com/320/240">
       </ion-avatar>
       <h2>{{ atividade.nome }}</h2>
-      <p>{{ atividade.tipo }}</p>
       <p>{{ atividade.pontuacao }}</p>
+      <button ion-button item-end clear (click)="opcoesAtividade(atividade)">
+        <ion-icon name="more"></ion-icon>
+      </button>
     </ion-item>
   </ion-list>
 </ion-content>
