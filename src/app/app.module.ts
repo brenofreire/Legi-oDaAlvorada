@@ -16,6 +16,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { UserPage } from '../pages/home/user/user';
 import { ToolsProvider } from '../providers/tools/tools';
 import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadastros';
+import { AdicionarParticipantePage } from '../pages/legiao/atividades/adicionar-participante/adicionar-participante';
 
 
 @NgModule({
@@ -25,7 +26,6 @@ import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadast
     TabsPage,
     LegiaoPage,
     LuxPage,
-    UserPage,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +40,6 @@ import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadast
     TabsPage,
     LegiaoPage,
     LuxPage,
-    UserPage,
   ],
   providers: [
     StatusBar,

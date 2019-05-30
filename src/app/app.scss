@@ -43,3 +43,13 @@ ion-select {
     padding: 3x !important;
     vertical-align: baseline;
 }
+ion-header {
+    .searchbar-md {
+        background-color: #5b2018;
+        color: #666;
+        .searchbar-input {
+            background-color: #ffffff39;
+            color: #fff;
+        }
+    }
+}
