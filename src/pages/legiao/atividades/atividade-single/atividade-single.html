@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{  atividade.nome }}</ion-title>
+    <ion-buttons end>
+      <button ion-button outline (click)="exibirOpcoesAtividade()">Opções</button>
+    </ion-buttons>
+  </ion-navbar>
+  
+</ion-header>
+<ion-content padding>
+  <ion-card>
+    <ion-item>
+      ID: {{ atividade.nome }}
+    </ion-item>
+    <ion-item>
+      Nome: {{ atividade.codigo }}
+    </ion-item>
+    <ion-item>
+      Capítulo: {{ atividade.pontuacao }}
+    </ion-item>
+    <ion-item>
+      E-mail: {{ atividade.prazo_final }}
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <div ion-list class="participantes">
+      <ion-item>
+        <h1>Participantes</h1>
+      </ion-item>
+      <ion-item>
+        Samuel
+      </ion-item>
+    </div>
+  </ion-card>
+</ion-content>
