@@ -69,8 +69,9 @@ export class UserPage {
   logar() {
     this.api.post('conta/logar', this.login).then(logar => {
       if (logar['ok'] == true) {
-        this.storage.set('usuario-logado', logar);
+        this.storage.set('usuario-logado', logar['usuario']);
         this.events.publish('usuario_logou', true);
+        this.navCtrl.pop();
       } else {
         let toast_erro_login = this.toastCtrl.create({
           message: "Houve um erro inesperado ao logar :(",
