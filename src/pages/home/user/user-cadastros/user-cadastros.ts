@@ -12,6 +12,9 @@ export class UserCadastrosPage {
 
   public usuarios: any;
   public usuario_logado;
+  public page_options = {
+    loaded: false,
+  }
 
   constructor(
     public navCtrl: NavController,
@@ -28,8 +31,11 @@ export class UserCadastrosPage {
   }
   get_usuarios_temporarios(capitulo) {
     this.api.get('conta/get_usuarios_temporarios?capitulo=' + capitulo).then(usuarios_temporarios => {
-      this.usuarios = usuarios_temporarios['usuarios'];
+      this.usuarios = usuarios_temporarios['usuarios'] ? usuarios_temporarios['usuarios'] : false;
+
+      this.page_options.loaded = true;
     }).catch(error => {
+      this.page_options.loaded = true;
       let toast_erro_usuarios_temporarios = this.toastCtrl.create({
         message: error['error'],
         position: 'top',
@@ -38,14 +44,14 @@ export class UserCadastrosPage {
       toast_erro_usuarios_temporarios.present();
     });
   }
-  modificarStatusUsuario(status, cid) {
+  modificarStatusUsuario(status, usuario) {
     let body = {
       status: status,
-      cid: cid
+      usuario: usuario
     }
     this.api.post('conta/modificar_usuario_temporario', body).then(status_alterado => {
       for (let usuario of this.usuarios) {
-        if(usuario['CID'] == status_alterado['cid']) {
+        if(usuario['CID'] == status_alterado['CID']) {
           usuario['status'] = body.status;
         }
       }

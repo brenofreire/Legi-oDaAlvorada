@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <div class="loader" *ngIf="!usuarios">
+  <div class="loader" *ngIf="!page_options.loaded">
     <ion-spinner name="dots"></ion-spinner>
   </div>
   <ion-list *ngIf="usuarios">
@@ -15,15 +15,15 @@
       <h2>{{ usuario.nome }}</h2>
       <p>{{ usuario.CID }}</p>
       <p>{{ usuario.email }}</p>
-      <button ion-button color="secondary" (click)="modificarStatusUsuario(1, usuario.CID)">
+      <button ion-button color="secondary" (click)="modificarStatusUsuario(1, usuario)">
         <ion-icon name="checkbox"></ion-icon>
         Aprovar
       </button>
-      <button ion-button color="primary" (click)="modificarStatusUsuario(2, usuario.CID)">
+      <button ion-button color="primary" (click)="modificarStatusUsuario(2, usuario)">
         <ion-icon name="close-circle"></ion-icon>
         Reprovar
       </button>
-      <button ion-button color="danger" (click)="modificarStatusUsuario(0, usuario.CID)">
+      <button ion-button color="danger" (click)="modificarStatusUsuario(0, usuario)">
         <ion-icon name="trash"></ion-icon>
         Excluir
       </button>
@@ -32,4 +32,7 @@
       </div>
     </ion-item>
   </ion-list>
+  <h2 *ngIf="!usuarios">
+    Nenhum usuário encontrado
+  </h2>
 </ion-content>
