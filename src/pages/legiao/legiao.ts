@@ -73,4 +73,22 @@ export class LegiaoPage {
     });
     action_sheet_superadmin.present();
   }
+  opcoesLegiao(){
+    let action_sheet_opcoes_legiao = this.actionSheetCtrl.create({
+      title: 'Opções',
+      buttons: [
+        {
+          text: 'Ranking',
+          handler: () => {
+            alert('redireciona pra página de ranking');
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        }
+      ]
+    });
+    action_sheet_opcoes_legiao.present();
+  }
 }

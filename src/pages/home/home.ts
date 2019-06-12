@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'home.html',
 })
 export class HomePage {
-  public usuario_logado: object = {};
+  public usuario_logado = {};
 
   constructor(
     public navCtrl: NavController,
@@ -21,17 +21,27 @@ export class HomePage {
     public modalCtrl: ModalController,
     public actionSheetCtrl: ActionSheetController
   ) {
-    this.storage.get('usuario-logado').then(usuario_logado => {
-      if (!usuario_logado) {
-        let modal_user = this.modalCtrl.create("UserPage");
-        modal_user.present();
-      } else {
-        this.usuario_logado = usuario_logado['usuario'];
-      }
-    });
+
   }
   ionViewDidLoad() {
 
+  }
+  ionViewWillEnter() {
+    this.storage.get('usuario-cadastro').then(usuario_cadastro => {
+      if (usuario_cadastro) {
+        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage");
+        modal_obrigado.present();
+      } else {
+        this.storage.get('usuario-logado').then(usuario_logado => {
+          if (!usuario_logado) {
+            let modal_user = this.modalCtrl.create("UserPage");
+            modal_user.present();
+          } else {
+            this.usuario_logado = usuario_logado['usuario'];
+          }
+        }).catch(() => { });
+      }
+    }).catch(() => { });
   }
   actionSheetOpcoes() {
     let actionSheet_Opcoes = this.actionSheetCtrl.create({
@@ -51,5 +61,9 @@ export class HomePage {
       ]
     });
     actionSheet_Opcoes.present();
+  }
+  logout() {
+    this.storage.set('usuario-logado', null);
+    this.navCtrl.push('UserPage');
   }
 }

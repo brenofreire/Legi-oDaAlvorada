@@ -3,14 +3,17 @@
     <ion-title>Home</ion-title>
     <ion-buttons end>
       <button ion-button outline (click)="actionSheetOpcoes()">Opções</button>
-      <button ion-button blocked>Sair</button>
+      <button ion-button blocked (click)="logout()">Sair</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <div class="loader" *ngIf="!usuario_logado">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
   <!-- CARD DO USUÁRIO -->
-  <ion-card>
+  <ion-card *ngIf="usuario_logado">
     <ion-item>
       ID: {{ usuario_logado.CID }}
     </ion-item>
