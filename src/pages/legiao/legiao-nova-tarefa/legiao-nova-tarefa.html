@@ -17,9 +17,9 @@
     <div class="campo-stacked">
       <ion-label class="label-stacked" for="tipo" stacked>Tipo</ion-label>
       <ion-item no-lines no-padding>
-        <ion-select [(ngModel)]="tarefa.codigo"  name="tipo" placeholder="Escolha um tipo...">
+        <ion-select [(ngModel)]="tarefa.tipo"  name="tipo" placeholder="Escolha um tipo...">
           <ion-option value="null" checked>Selecionar</ion-option>
-          <ion-option *ngFor="let tipo of page_options.tipos" [value]="tipo.codigo" >{{ tipo.tipo }}</ion-option>
+          <ion-option *ngFor="let tipo of page_options.tipos" [value]="tipo.tipo" >{{ tipo.nome }}</ion-option>
         </ion-select>
       </ion-item>
     </div>
@@ -50,7 +50,12 @@
     </div>
     <button ion-button block [disabled]="tarefa.nome.length < 4" (click)="cadastrarTarefa()">Enviar</button>
   </ion-list>
-  <ion-card class="mensagem_retorno" *ngIf="page_options.retorno_cadastro.ok">
-    {{ page_options.retorno_cadastro.mensagem }}
+  <ion-card class="mensagem_retorno" *ngIf="page_options.retorno_cadastro.ok" padding>
+    <ion-card-header>
+      <h2>Atividade Criada com Sucesso!</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <button ion-button (click)="goToHomePage()">Ir para página inicial</button>
+    </ion-card-content>
   </ion-card>
 </ion-content>

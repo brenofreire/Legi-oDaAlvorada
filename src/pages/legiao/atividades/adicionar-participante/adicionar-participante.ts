@@ -19,7 +19,7 @@ export class AdicionarParticipantePage {
   public usuarios_remover: any;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public api: ApiProvider,
     public toastCtrl: ToastController,
@@ -27,7 +27,7 @@ export class AdicionarParticipantePage {
     this.atividade = this.navParams.get('atividade');
   }
   getUsuarios() {
-    this.api.get('conta/get_usuarios_legiao?capitulo=' + this.atividade.capitulo + '&atividade=' + this.atividade.id ).then(usuarios => {
+    this.api.get('legiao/get_usuarios_legiao?capitulo=' + this.atividade.capitulo + '&atividade=' + this.atividade.id).then(usuarios => {
       this.usuarios = usuarios['usuarios'];
       this.usuarios_remover = usuarios['usuarios_remover'];
       this.page_options.usuarios_carregados = true;
@@ -37,18 +37,20 @@ export class AdicionarParticipantePage {
     this.getUsuarios();
     this.page_options.participantes_segment = 'adicionar'
   }
-  alterarStatusUsuarioAtividade(acao, usuario){
+  alterarStatusUsuarioAtividade(acao, usuario) {
     // Criar enddpoint para adicionar ou remover usuário.
     let obj = {
       atividade: this.atividade['id'],
       pontuacao: this.atividade['pontuacao'],
-      id: usuario['CID'],
+      usuario: usuario['cid'],
       capitulo: usuario['capitulo'],
-      role: usuario['role'],
+      role: Number(usuario['role']),
       acao: acao,
     }
+    console.log(usuario);    
     this.api.post('legiao/registrar_participante', obj).then(adicionar => {
-      this.getUsuarios();
+      if (adicionar)
+        this.getUsuarios();
     }).catch(error => {
       let toast_erro_adicionar = this.toastCtrl.create({
         message: 'Erro ao mudar status do participante',

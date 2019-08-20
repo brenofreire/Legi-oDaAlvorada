@@ -32,15 +32,22 @@ export class ObrigadoCadastrarPage {
     this.api.get('conta/verificar_status/' + this.login.cid).then(data => {
       if(data['status'] == 1){
         this.storage.set('usuario-cadastro', null);        
-        this.navCtrl.pop();
+        let alert = this.alertCtrl.create({
+          title: 'Cadastro aprovado!',
+          subTitle: 'Você será logado.',
+          message: 'Clique em ok para confirmar...',
+          buttons: ['Ok']
+        });
+        alert.present();
+        alert.onDidDismiss(() => { this.navCtrl.pop(); });
       } else {
-        let alert_conta_inativa = this.alertCtrl.create({
+        this.alertCtrl.create({
           title: 'Eita!',
           subTitle: 'Sua conta ainda não foi confirmada.',
           message: 'O seu cadastro ainda não foi aprovado pela diretoria de seu capítulo.',
           buttons: ['OK']
-        });
-        alert_conta_inativa.present();}
+        }).present();
+      }
     }).catch(error => {
       console.log(error);
     });

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { ApiProvider } from '../../../providers/api/api';
 import { ToolsProvider } from '../../../providers/tools/tools';
 import { Storage } from '@ionic/storage';
+import { HomePage } from '../../home/home';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,6 @@ export class LegiaoNovaTarefaPage {
     nome: '',
     slug: null,
     pontuacao: null,
-    codigo: null,
     cnie: null,
     lux: null,
     capitulo: null,
@@ -48,24 +48,27 @@ export class LegiaoNovaTarefaPage {
     this.tarefa.slug = this.tools.slugify(this.tarefa.nome);
     this.banco.get('usuario-logado').then(usuario_logado => {
       this.tarefa['capitulo'] = usuario_logado['usuario']['capitulo'];
+      this.tarefa['status'] = 1;
       this.api.post('legiao/cadastrar_tarefa', this.tarefa).then(cadastro_tarefa => {
         this.page_options.retorno_cadastro.ok = cadastro_tarefa['ok'];
-        let toast_sucesso_cadastro_tarefa = this.toastCtrl.create({
+        this.page_options.retorno_cadastro.mensagem = cadastro_tarefa['mensagem'];
+        this.toastCtrl.create({
           message: cadastro_tarefa['mensagem'],
           duration: 3000,
           position: 'top'
-        });
-        toast_sucesso_cadastro_tarefa.present();
+        }).present();
       }, error => {
-        let toast_erro_cadastro_tarefa = this.toastCtrl.create({
+        this.toastCtrl.create({
           message: error['error'],
           duration: 3000,
           position: 'top'
-        });
-        toast_erro_cadastro_tarefa.present();
+        }).present();
       });
     }).catch(error => {
       console.log(error);      
     });
+  }
+  goToHomePage() {
+    this.navCtrl.setRoot(HomePage);
   }
 }

@@ -2,8 +2,10 @@
   <ion-navbar>
     <ion-title>{{ atividade.nome }}</ion-title>
   </ion-navbar>
+  <!-- barra de pesquisa -->
   <ion-searchbar color="branco" *ngIf="page_options.search_bar" placeholder="Quem participou da atividade?">
   </ion-searchbar>
+  <!-- segment de adicionar ou remover -->
   <ion-segment [(ngModel)]="page_options.participantes_segment">
     <ion-segment-button value="adicionar">
       Adicionar
@@ -17,32 +19,41 @@
   <div class="loader" *ngIf="!page_options.usuarios_carregados">
     <ion-spinner></ion-spinner>
   </div>
+  <!-- listagem de usuários -->
   <div *ngIf="page_options.usuarios_carregados">
     <ion-card [ngSwitch]="page_options.participantes_segment">
+      <!-- usuários para adicionar -->
       <div *ngIf="usuarios != null">
         <ion-list *ngSwitchCase="'adicionar'">
+          <!-- for => usuarios para adicionar -->
           <ion-item *ngFor="let usuario of usuarios">
             <ion-avatar item-start>
               <img src="https://loremflickr.com/320/240">
             </ion-avatar>
             <p>{{ usuario.nome }}</p>
+            <!-- botão de adicionar -->
             <button ion-button item-end color="secondary" (click)="alterarStatusUsuarioAtividade(1, usuario)">
               <ion-icon name="check"></ion-icon> Adicionar
             </button>
           </ion-item>
         </ion-list>
       </div>
+      <!-- caso não tenha usuário para adicionar -->
       <h2 *ngIf="!usuarios">Nenhum usuário para adicionar</h2>
+      <!-- usuários para remover -->
       <ion-list *ngSwitchCase="'remover'">
+        <!-- for => usuários para remover -->
         <ion-item *ngFor="let usuario_remover of usuarios_remover">
           <ion-avatar item-start>
             <img src="https://loremflickr.com/320/240">
           </ion-avatar>
           <p>{{ usuario_remover.nome }}</p>
+          <!-- botão para remover -->
           <button ion-button item-end color="danger" (click)="alterarStatusUsuarioAtividade(0, usuario_remover)">
             <ion-icon name="check"></ion-icon> Remover
           </button>
         </ion-item>
+        <!-- caso não tenha usuário para remover -->
         <h2 *ngIf="!usuarios_remover">Nenhum usuário cadastrado</h2>
       </ion-list>
     </ion-card>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events, ModalController, App, ViewController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ApiProvider } from '../../../providers/api/api';
+import { HomePage } from '../home';
 
 @IonicPage()
 @Component({
@@ -29,7 +30,10 @@ export class UserPage {
     public toastCtrl: ToastController,
     public events: Events,
     public storage: Storage,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public appCtrl: App,
+    public viewCtrl: ViewController,
+    public loadingCtrl: LoadingController,
   ) {
     this.storage.get('cadastro').then(data => {
       this.page_options.mostrar_cadastrar = !data;
@@ -43,50 +47,42 @@ export class UserPage {
     });
   }
   cadastrar() {
+    let loading = this.loadingCtrl.create({
+      content: 'Verificando credenciais...'
+    }); loading.present();
     this.api.post('conta/cadastrar', this.login).then(cadastrar => {
-      let toast_sucesso_cadastro = this.toastCtrl.create({
-        message: cadastrar['mensagem'],
-        duration: 3000,
-        position: 'top'
-      });
-      toast_sucesso_cadastro.present();
-      toast_sucesso_cadastro.onDidDismiss(() => {
-        this.page_options.mostrar_cadastrar = false;
-        this.storage.set('cadastro', true);
-        this.storage.set('usuario-cadastro', this.login);
-        let modal_sucesso_cadastro = this.modalCtrl.create("ObrigadoCadastrarPage");
-        modal_sucesso_cadastro.present();
-      });
+      loading.dismiss();
+      this.page_options.mostrar_cadastrar = false;
+      this.storage.set('cadastro', true);
+      this.storage.set('usuario-cadastro', this.login);
+      this.modalCtrl.create("ObrigadoCadastrarPage").present();
     }).catch(error => {
-      let toast_erro_cadastro = this.toastCtrl.create({
+      loading.dismiss();
+      this.toastCtrl.create({
         message: error['error'],
         duration: 3000,
-        position: 'top'
-      });
-      toast_erro_cadastro.present();
+      }).present();
     })
   }
   logar() {
     this.api.post('conta/logar', this.login).then(logar => {
-      if (logar['ok'] == true) {
-        this.storage.set('usuario-logado', { usuario: logar['usuario']});
+      if (logar['usuario']) {
+        this.storage.set('usuario-logado', { usuario: logar['usuario'][0] });
         this.events.publish('usuario_logou', true);
-        this.navCtrl.pop();
+        this.viewCtrl.dismiss(logar['usuario'][0]);
       } else {
-        let toast_erro_login = this.toastCtrl.create({
+        this.toastCtrl.create({
           message: "Houve um erro inesperado ao logar :(",
           duration: 3000,
           position: 'top'
-        });
-        toast_erro_login.present();
+        }).present();
       }
     }).catch(error => {
-      let toast_erro_login = this.toastCtrl.create({
-        message: error['erro'],
+      this.toastCtrl.create({
+        message: error['error'],
         duration: 3000,
         position: 'top'
-      });
-      toast_erro_login.present();
+      }).present();
     });
   }
 }

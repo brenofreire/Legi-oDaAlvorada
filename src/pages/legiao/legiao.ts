@@ -13,6 +13,7 @@ export class LegiaoPage {
 
   public usuario_logado;
   public atividades;
+  public carregando = true;
 
   constructor(
     public navCtrl: NavController,
@@ -24,15 +25,22 @@ export class LegiaoPage {
   }
   ionViewDidEnter() {
     this.banco.get('usuario-logado').then(usuario_logado => {
-      this.usuario_logado = usuario_logado['usuario'];
-      this.getAtividadesCapitulo();
+      if (usuario_logado) {
+        this.usuario_logado = usuario_logado['usuario'];
+        this.getAtividadesCapitulo();
+      } else this.navCtrl.setRoot('UserPage');
+    }).catch(() => {
+      this.navCtrl.setRoot('UserPage');
     });
   }
   getAtividadesCapitulo() {
     this.api.get('legiao/get_atividades_legiao?capitulo=' + this.usuario_logado['capitulo']).then(atividades => {
       this.atividades = atividades['atividades'];
+      this.carregando = false;
     }).catch(error => {
+      this.atividades = null;
       console.log(error);
+      this.carregando = false;
     });
   }
   opcoesAtividade(atividade) {
@@ -50,10 +58,10 @@ export class LegiaoPage {
         page: 'AdicionarParticipantePage',
       }
     } else {
-        role_options = {
-          text: 'Abrir atividade',
-          page: 'AtividadeSinglePage',
-        }
+      role_options = {
+        text: 'Abrir atividade',
+        page: 'AtividadeSinglePage',
+      }
     }
     let action_sheet_superadmin = this.actionSheetCtrl.create({
       title: 'Opções',
@@ -73,7 +81,7 @@ export class LegiaoPage {
     });
     action_sheet_superadmin.present();
   }
-  opcoesLegiao(){
+  opcoesLegiao() {
     let action_sheet_opcoes_legiao = this.actionSheetCtrl.create({
       title: 'Opções',
       buttons: [

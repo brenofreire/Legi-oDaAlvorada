@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events, ModalController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
 
@@ -19,7 +19,8 @@ export class HomePage {
     public events: Events,
     public storage: Storage,
     public modalCtrl: ModalController,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    public alertCtrl: AlertController,
   ) {
 
   }
@@ -36,6 +37,9 @@ export class HomePage {
           if (!usuario_logado) {
             let modal_user = this.modalCtrl.create("UserPage");
             modal_user.present();
+            modal_user.onDidDismiss(usuario_logado => {
+              if(usuario_logado) this.usuario_logado = usuario_logado;
+            });
           } else {
             this.usuario_logado = usuario_logado['usuario'];
           }
@@ -63,7 +67,18 @@ export class HomePage {
     actionSheet_Opcoes.present();
   }
   logout() {
-    this.storage.set('usuario-logado', null);
-    this.navCtrl.push('UserPage');
+    this.alertCtrl.create({
+      title: 'Deseja realmente sair?',
+      buttons: [
+        'Não',
+        {
+          text: 'Sim',
+          handler: () => {
+            this.storage.set('usuario-logado', null);
+            this.navCtrl.setRoot('UserPage');
+          }
+        }
+      ]
+    }).present();
   }
 }

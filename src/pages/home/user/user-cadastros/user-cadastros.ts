@@ -31,17 +31,13 @@ export class UserCadastrosPage {
   }
   get_usuarios_temporarios(capitulo) {
     this.api.get('conta/get_usuarios_temporarios?capitulo=' + capitulo).then(usuarios_temporarios => {
-      this.usuarios = usuarios_temporarios['usuarios'] ? usuarios_temporarios['usuarios'] : false;
+      this.usuarios = usuarios_temporarios;
+      this.usuarios = this.usuarios.length ? this.usuarios : false;
 
       this.page_options.loaded = true;
     }).catch(error => {
+      this.usuarios = false;
       this.page_options.loaded = true;
-      let toast_erro_usuarios_temporarios = this.toastCtrl.create({
-        message: error['error'],
-        position: 'top',
-        duration: 3000
-      });
-      toast_erro_usuarios_temporarios.present();
     });
   }
   modificarStatusUsuario(status, usuario) {
@@ -51,7 +47,7 @@ export class UserCadastrosPage {
     }
     this.api.post('conta/modificar_usuario_temporario', body).then(status_alterado => {
       for (let usuario of this.usuarios) {
-        if(usuario['CID'] == status_alterado['CID']) {
+        if(usuario['cid'] == status_alterado['cid']) {
           usuario['status'] = body.status;
         }
       }
