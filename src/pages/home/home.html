@@ -28,11 +28,11 @@
     </ion-item>
     <ion-item icon-left>
       <ion-icon name="podium"></ion-icon>
-      <b>Pontuação</b> {{ usuario_logado.pontuacao.pontuacao_soma }} Pontos
+      <b>Pontuação</b> {{ usuario_logado.pontuacao }} Pontos
     </ion-item>
     <ion-item icon-left no-lines>
       <ion-icon name="medal"></ion-icon>
-      <b>Elo</b> {{ usuario_logado.pontuacao.elo }}
+      <b>Elo</b> {{ usuario_logado.elo }}
     </ion-item>
     <button ion-button block (click)="logout()">Sair</button>
   </ng-template>

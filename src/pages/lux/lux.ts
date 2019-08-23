@@ -41,7 +41,9 @@ export class LuxPage {
       if (usuario_logado)
         this.getAtividadesLux();
       else {
-        let modal_user = this.modalCtrl.create("UserPage");
+        let modal_user = this.modalCtrl.create("UserPage", {}, {
+          enableBackdropDismiss: false,              
+        });
         modal_user.present();
         modal_user.onDidDismiss(usuario_logado => {
           if (usuario_logado) this.usuario_logado = usuario_logado;

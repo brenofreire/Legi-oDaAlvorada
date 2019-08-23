@@ -32,12 +32,16 @@ export class HomePage {
   ionViewWillEnter() {
     this.storage.get('usuario-cadastro').then(usuario_cadastro => {
       if (usuario_cadastro) {
-        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage");
+        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage",{}, {
+          enableBackdropDismiss: false,              
+        });
         modal_obrigado.present();
       } else {
         this.storage.get('usuario-logado').then(usuario_logado => {
           if (!usuario_logado) {
-            let modal_user = this.modalCtrl.create("UserPage");
+            let modal_user = this.modalCtrl.create("UserPage",{}, {
+              enableBackdropDismiss: false,              
+            });
             modal_user.present();
             modal_user.onDidDismiss(usuario_logado => {
               if(usuario_logado) this.usuario_logado = usuario_logado;
@@ -92,7 +96,9 @@ export class HomePage {
           text: 'Sim',
           handler: () => {
             this.storage.set('usuario-logado', null);
-            let modal_user = this.modalCtrl.create('UserPage'); modal_user.present();
+            let modal_user = this.modalCtrl.create('UserPage',{}, {
+              enableBackdropDismiss: false,              
+            }); modal_user.present();
             modal_user.onDidDismiss(usuario_logado => {
               if(usuario_logado) this.usuario_logado = usuario_logado;
             });

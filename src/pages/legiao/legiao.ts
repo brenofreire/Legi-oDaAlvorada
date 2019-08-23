@@ -32,14 +32,22 @@ export class LegiaoPage {
         this.usuario_logado = usuario_logado['usuario'];
         this.getAtividadesCapitulo();
       } else {
-        let modal_user = this.modalCtrl.create("UserPage");
+        let modal_user = this.modalCtrl.create("UserPage", {}, {
+          enableBackdropDismiss: false,
+        });
         modal_user.present();
         modal_user.onDidDismiss(usuario_logado => {
           if (usuario_logado) this.usuario_logado = usuario_logado;
         });
       }
     }).catch(() => {
-      this.navCtrl.setRoot('UserPage');
+      let modal_user = this.modalCtrl.create("UserPage", {}, {
+        enableBackdropDismiss: false,
+      });
+      modal_user.present();
+      modal_user.onDidDismiss(usuario_logado => {
+        if (usuario_logado) this.usuario_logado = usuario_logado;
+      });
     });
   }
   getAtividadesCapitulo() {
