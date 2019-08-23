@@ -1,10 +1,11 @@
 ion-title {
     text-transform: uppercase;
 }
+
 .toolbar-background {
-    background-color: #5c2018;
+    background-color: #713939;
     color: #fff;
-}    
+}
 .loader {
     height: 100%;
     width: 100%;
@@ -13,6 +14,9 @@ ion-title {
     align-self: center;
     align-content: center;
     align-items: center;
+}
+.content {
+    background: url('../assets/imgs/background.png');
 }
 .list-md {
     .campo-stacked {

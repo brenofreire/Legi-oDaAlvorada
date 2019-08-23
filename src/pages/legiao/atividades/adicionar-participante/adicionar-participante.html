@@ -3,7 +3,7 @@
     <ion-title>{{ atividade.nome }}</ion-title>
   </ion-navbar>
   <!-- barra de pesquisa -->
-  <ion-searchbar color="branco" *ngIf="page_options.search_bar" placeholder="Quem participou da atividade?">
+  <ion-searchbar color="branco" *ngIf="page_options.search_bar" placeholder="Quem participou da atividade?" hidden>
   </ion-searchbar>
   <!-- segment de adicionar ou remover -->
   <ion-segment [(ngModel)]="page_options.participantes_segment">
@@ -15,13 +15,13 @@
     </ion-segment-button>
   </ion-segment>
 </ion-header>
-<ion-content padding>
+<ion-content>
   <div class="loader" *ngIf="!page_options.usuarios_carregados">
     <ion-spinner></ion-spinner>
   </div>
   <!-- listagem de usuários -->
   <div *ngIf="page_options.usuarios_carregados">
-    <ion-card [ngSwitch]="page_options.participantes_segment">
+    <div [ngSwitch]="page_options.participantes_segment">
       <!-- usuários para adicionar -->
       <div *ngIf="usuarios != null">
         <ion-list *ngSwitchCase="'adicionar'">
@@ -56,6 +56,6 @@
         <!-- caso não tenha usuário para remover -->
         <h2 *ngIf="!usuarios_remover">Nenhum usuário cadastrado</h2>
       </ion-list>
-    </ion-card>
+    </div>
   </div>
 </ion-content>

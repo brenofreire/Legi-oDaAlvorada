@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Legiao da Alvorada</ion-title>
-    <ion-buttons end>
+    <ion-title>Legião da Alvorada</ion-title>
+    <ion-buttons end hidden>
       <button ion-button outline (click)="opcoesLegiao()">
         <ion-icon name="cog"></ion-icon>&nbsp; Opções
       </button>
@@ -9,7 +9,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <div class="loader" *ngIf="!atividades && carregando">
     <ion-spinner name="dots"></ion-spinner>
   </div>
@@ -20,7 +20,7 @@
           <img src="https://loremflickr.com/320/240">
         </ion-avatar>
         <h2>{{ atividade.nome }}</h2>
-        <p>{{ atividade.pontuacao }}</p>
+        <p>{{ atividade.pontuacao }} pontos</p>
         <button ion-button item-end clear (click)="opcoesAtividade(atividade)">
           <ion-icon name="more"></ion-icon>
         </button>

@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'home.html',
 })
 export class HomePage {
-  public usuario_logado = {};
+  public usuario_logado;
 
   constructor(
     public navCtrl: NavController,
@@ -22,7 +22,9 @@ export class HomePage {
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
   ) {
-
+    this.events.subscribe('usuario-logado', usuario => {
+      this.usuario_logado = usuario;
+    });
   }
   ionViewDidLoad() {
 
@@ -48,21 +50,36 @@ export class HomePage {
     }).catch(() => { });
   }
   actionSheetOpcoes() {
-    let actionSheet_Opcoes = this.actionSheetCtrl.create({
-      buttons: [
+    let buttons = [];
+    buttons.push(
+      {
+        text: 'Ranking',
+        icon: 'podium',
+        handler: () => {
+          this.navCtrl.push('RankingPage');
+        }
+      }      
+    );
+    if(Number(this.usuario_logado['role']) >= 5){
+      buttons.push(
         {
           text: 'Nova Atividade',
+          icon: 'add',
           handler: () => {
             this.navCtrl.push("LegiaoNovaTarefaPage");
           }
         },
         {
           text: 'Solicitações de Cadastro',
+          icon: 'person',
           handler: () => {
             this.navCtrl.push("UserCadastrosPage");
           }
-        },
-      ]
+        }
+      );
+    }
+    let actionSheet_Opcoes = this.actionSheetCtrl.create({
+      buttons: buttons
     });
     actionSheet_Opcoes.present();
   }
@@ -75,7 +92,10 @@ export class HomePage {
           text: 'Sim',
           handler: () => {
             this.storage.set('usuario-logado', null);
-            this.navCtrl.setRoot('UserPage');
+            let modal_user = this.modalCtrl.create('UserPage'); modal_user.present();
+            modal_user.onDidDismiss(usuario_logado => {
+              if(usuario_logado) this.usuario_logado = usuario_logado;
+            });
           }
         }
       ]

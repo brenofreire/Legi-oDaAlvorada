@@ -3,7 +3,7 @@
     <ion-title>Home</ion-title>
     <ion-buttons end>
       <button ion-button outline (click)="actionSheetOpcoes()">Opções</button>
-      <button ion-button blocked (click)="logout()">Sair</button>
+
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -13,18 +13,27 @@
     <ion-spinner name="dots"></ion-spinner>
   </div>
   <!-- CARD DO USUÁRIO -->
-  <ion-card *ngIf="usuario_logado">
-    <ion-item>
-      ID: {{ usuario_logado.cid }}
+  <ng-template [ngIf]="usuario_logado">
+    <ion-item icon-left>
+      <ion-icon name="person"></ion-icon>
+      <b>DM</b> {{ usuario_logado.cid }}, {{ usuario_logado.nome }}
     </ion-item>
-    <ion-item>
-      Nome: {{ usuario_logado.nome }}
+    <ion-item icon-left>
+      <ion-icon name="bowtie"></ion-icon>
+      <b>Capítulo</b> {{ usuario_logado.capitulo }}
     </ion-item>
-    <ion-item>
-      Capítulo: {{ usuario_logado.capitulo }}
+    <ion-item icon-left>
+      <ion-icon name="mail"></ion-icon>
+      <b>E-mail</b> {{ usuario_logado.email }}
     </ion-item>
-    <ion-item>
-      E-mail: {{ usuario_logado.email }}
+    <ion-item icon-left>
+      <ion-icon name="podium"></ion-icon>
+      <b>Pontuação</b> {{ usuario_logado.pontuacao.pontuacao_soma }} Pontos
     </ion-item>
-  </ion-card>
+    <ion-item icon-left no-lines>
+      <ion-icon name="medal"></ion-icon>
+      <b>Elo</b> {{ usuario_logado.pontuacao.elo }}
+    </ion-item>
+    <button ion-button block (click)="logout()">Sair</button>
+  </ng-template>
 </ion-content>

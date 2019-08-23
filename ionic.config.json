@@ -1,5 +1,7 @@
 {
   "name": "LegiaoDaAlvorada",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

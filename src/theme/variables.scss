@@ -34,19 +34,22 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #5c2018,
+  primary:    #713939,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f3e0dc,
   dark:       #222,
 
   tom_medio:    #bc4639,
-  tom_leve:     #d4a594,
+  tom_leve:     #d4a695,
   tom_animado:  #f4976c,
   branco:       #fff
 );
 $toolbar-md-title-text-color: #fff;
 $searchbar-md-input-search-icon-color:#fff;
+$font-family-md-base: 'Viga', sans-serif;
+$font-family-ios-base: 'Viga', sans-serif;
+$font-family-wp-base: 'Viga', sans-serif;
 
 
 

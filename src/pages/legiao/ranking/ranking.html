@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ranking</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ng-template let-index [ngIf]="!page_options.carregando && demolays && demolays.length">
+    <ion-item *ngFor="let demolay of objectKeys(demolays); index as i">
+      <p>{{ i + 1 }}º {{ demolays[demolay].demolay.nome }}  </p>
+      <small>{{demolays[demolay].pontuacao_soma }} pontos</small>
+    </ion-item>
+  </ng-template>
+  <div class="vazio" *ngIf="!page_options.carregando && !demolays">
+    <h2>Nenhum DeMolay concluiu atividade ainda...</h2>
+  </div>
+</ion-content>

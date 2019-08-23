@@ -17,6 +17,7 @@ import { UserPage } from '../pages/home/user/user';
 import { ToolsProvider } from '../providers/tools/tools';
 import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadastros';
 import { AdicionarParticipantePage } from '../pages/legiao/atividades/adicionar-participante/adicionar-participante';
+import { AtividadesProvider } from '../providers/atividades/atividades';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { AdicionarParticipantePage } from '../pages/legiao/atividades/adicionar-
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
-    ToolsProvider
+    ToolsProvider,
+    AtividadesProvider
   ]
 })
 export class AppModule {}

@@ -4,18 +4,26 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    <div class="loader" *ngIf="!atividades">
-        <ion-spinner name="dots"></ion-spinner>
-      </div>
-      <ion-list *ngIf="atividades">
-        <ion-item *ngFor="let atividade of atividades">
-          <ion-avatar item-start>
-            <img src="https://loremflickr.com/320/240">
-          </ion-avatar>
-          <h2>{{ atividade.nome }}</h2>
-          <p>{{ atividade.tipo }}</p>
-          <p>{{ atividade.pontuacao }}</p>
-        </ion-item>
-      </ion-list>
+<ion-content>
+  <div class="loader" *ngIf="!atividades && page_options.carregando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+  <ng-template [ngIf]="!page_options.carregando && atividades && atividades.length">
+    <ion-list *ngIf="atividades">
+      <ion-item *ngFor="let atividade of atividades">
+        <ion-avatar item-start>
+          <img src="https://loremflickr.com/320/240">
+        </ion-avatar>
+        <h2>{{ atividade.nome }}</h2>
+        <p>{{ atividade.descricao }}</p>
+        <p>{{ atividade.pontuacao }} pontos</p>
+        <button ion-button item-end clear (click)="opcoesAtividade(atividade)">
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+  <div class="vazio" *ngIf="!page_options.carregando && !atividades">
+    <h2>Nenhum atividade do módulo LUX disponível...</h2>
+  </div>
 </ion-content>

@@ -5,7 +5,8 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class ApiProvider {
-  private url = 'http://localhost:8000/'
+  private url = 'http://localhost:8000/';
+  // private url = 'https://apilegiao.herokuapp.com/';
   constructor(
     public http: HttpClient,
     public storage: Storage

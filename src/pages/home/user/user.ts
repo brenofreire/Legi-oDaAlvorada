@@ -65,12 +65,18 @@ export class UserPage {
     })
   }
   logar() {
+    let loading = this.loadingCtrl.create({
+      content: 'Verificando credenciais...'
+    }); loading.present();
     this.api.post('conta/logar', this.login).then(logar => {
       if (logar['usuario']) {
         this.storage.set('usuario-logado', { usuario: logar['usuario'][0] });
-        this.events.publish('usuario_logou', true);
+        this.events.publish('usuario_logou', logar['usuario'][0]);
         this.viewCtrl.dismiss(logar['usuario'][0]);
+        loading.dismiss();
+        // this.navCtrl.setRoot('HomePage');
       } else {
+        loading.dismiss();
         this.toastCtrl.create({
           message: "Houve um erro inesperado ao logar :(",
           duration: 3000,

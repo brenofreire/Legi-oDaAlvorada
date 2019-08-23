@@ -1,35 +1,41 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{  atividade.nome }}</ion-title>
-    <ion-buttons end>
+    <ion-title>Atividade</ion-title>
+    <ion-buttons end hidden>
       <button ion-button outline (click)="exibirOpcoesAtividade()">Opções</button>
     </ion-buttons>
   </ion-navbar>
-  
+
 </ion-header>
-<ion-content padding>
-  <ion-card>
-    <ion-item>
-      ID: {{ atividade.nome }}
-    </ion-item>
-    <ion-item>
-      Nome: {{ atividade.codigo }}
-    </ion-item>
-    <ion-item>
-      Capítulo: {{ atividade.pontuacao }}
-    </ion-item>
-    <ion-item>
-      E-mail: {{ atividade.prazo_final }}
-    </ion-item>
-  </ion-card>
-  <ion-card>
-    <div ion-list class="participantes">
+<ion-content>
+  <!-- loader -->
+  <div class="loader" *ngIf="page_options.carregando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+  <!-- cabeçalho da atividade single -->
+  <ng-template [ngIf]="!page_options.carregando && atividade">
+    <ion-list>
+      <ion-item icon-left>
+        <ion-icon name="person"></ion-icon>
+        <b>Nome</b> {{ atividade.nome }}
+      </ion-item>
+      <ion-item icon-left>
+        <ion-icon name="podium"></ion-icon>
+        <b>Pontuação</b> {{ atividade.pontuacao }} pontos
+      </ion-item>
+    </ion-list>
+    <!-- lista de participantes -->
+    <ion-list class="participantes" *ngIf="atividade.participantes">
       <ion-item>
         <h1>Participantes</h1>
       </ion-item>
-      <ion-item>
-        Samuel
+      <ion-item *ngFor="let participante of atividade.participantes">
+        {{ participante.nome }}
       </ion-item>
+    </ion-list>
+    <!-- mensagem de nenhum participante -->
+    <div class="vazio" *ngIf="!atividade.participantes">
+      <h2>Nenhum participante na atividade</h2>
     </div>
-  </ion-card>
+  </ng-template>
 </ion-content>
