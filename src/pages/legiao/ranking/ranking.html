@@ -5,9 +5,17 @@
 </ion-header>
 
 <ion-content>
+  <!-- Refresher de conteúdo -->
+  <ion-refresher slot="fixed" (ionRefresh)="buscaRanking($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <!-- ranking -->
   <ng-template let-index [ngIf]="!page_options.carregando && demolays && demolays.length">
     <ion-item *ngFor="let demolay of objectKeys(demolays); index as i">
-      <p>{{ i + 1 }}º {{ demolays[demolay].demolay.nome }}  </p>
+      <ion-avatar item-start class="{{ demolays[demolay].elo }} item-avatar">
+        <img src="https://loremflickr.com/320/240">
+      </ion-avatar>
+      <p>{{ i + 1 }}º {{ demolays[demolay].demolay.nome }} </p>
       <small>{{demolays[demolay].pontuacao_soma }} pontos</small>
     </ion-item>
   </ng-template>

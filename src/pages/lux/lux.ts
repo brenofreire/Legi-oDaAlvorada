@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ModalController
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { AtividadesProvider } from '../../providers/atividades/atividades';
+import { ToolsProvider } from '../../providers/tools/tools';
 
 /**
  * Generated class for the LuxPage page.
@@ -32,24 +33,29 @@ export class LuxPage {
     public loadingCtrl: LoadingController,
     public atividadesProvider: AtividadesProvider,
     public modalCtrl: ModalController,
+    public tools: ToolsProvider,
   ) {
   }
 
+  async ionViewWillEnter(){
+    this.usuario_logado = await this.tools.getUsuariosLogado();
+  }
   ionViewDidEnter() {
-    this.banco.get('usuario-logado').then(usuario_logado => {
-      this.usuario_logado = usuario_logado['usuario'];
-      if (usuario_logado)
-        this.getAtividadesLux();
-      else {
-        let modal_user = this.modalCtrl.create("UserPage", {}, {
-          enableBackdropDismiss: false,              
-        });
-        modal_user.present();
-        modal_user.onDidDismiss(usuario_logado => {
-          if (usuario_logado) this.usuario_logado = usuario_logado;
-        });
-      }
-    });
+    if(this.usuario_logado) this.getAtividadesLux();
+    // this.banco.get('usuario-logado').then(usuario_logado => {
+    //   this.usuario_logado = usuario_logado['usuario'];
+    //   if (usuario_logado)
+    //     this.getAtividadesLux();
+    //   else {
+    //     let modal_user = this.modalCtrl.create("UserPage", {}, {
+    //       enableBackdropDismiss: false,              
+    //     });
+    //     modal_user.present();
+    //     modal_user.onDidDismiss(usuario_logado => {
+    //       if (usuario_logado) this.usuario_logado = usuario_logado;
+    //     });
+    //   }
+    // });
   }
   getAtividadesLux() {
     this.api.get('legiao/get_atividades_lux?capitulo=' + this.usuario_logado['capitulo']).then(atividades => {
@@ -61,8 +67,8 @@ export class LuxPage {
     });
   }
   opcoesAtividade(atividade) {
-    this.atividadesProvider.opcoesAtividade({ atividade: atividade, role: this.usuario_logado.role }).then(retorno => {
-      this.navCtrl.push(retorno['role_options']['page'], {
+    this.atividadesProvider.opcoesAtividade({ role: this.usuario_logado.role }).then(retorno => {
+      this.navCtrl.push(retorno.toString(), {
         atividade: atividade
       });
     });

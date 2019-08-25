@@ -5,8 +5,8 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class ApiProvider {
-  // private url = 'http://localhost:8000/';
-  private url = 'https://apilegiao.herokuapp.com/';
+  private url = 'http://localhost:8000/';
+  // private url = 'https://apilegiao.herokuapp.com/';
   constructor(
     public http: HttpClient,
     public storage: Storage
@@ -16,7 +16,8 @@ export class ApiProvider {
   get(url_dinamica){
     return new Promise ((response, error) => {
       let headers = new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'api-legiao-123123123'
       });
       this.http.get(this.url + url_dinamica, {
         headers: headers

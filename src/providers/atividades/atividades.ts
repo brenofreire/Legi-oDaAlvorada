@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActionSheetController, NavController, App } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular';
 
 @Injectable()
 export class AtividadesProvider {
@@ -8,37 +8,27 @@ export class AtividadesProvider {
   constructor(
     public http: HttpClient,
     public actionSheetCtrl: ActionSheetController,
-  ) {}
-  opcoesAtividade({ atividade, role }) {
+  ) { }
+  opcoesAtividade({ role }) {
     return new Promise((response) => {
-      let role_options;
-      if (Number(role) >= 5) {
-        role_options = {
-          text: 'Participantes',
-          page: 'AdicionarParticipantePage',
-          icon: 'person-add',
-        }
-      } else {
-        role_options = {
+      let buttons = [];
+      buttons.push(
+        {
           text: 'Abrir atividade',
-          page: 'AtividadeSinglePage',
-          icon: 'open'
+          icon: 'open',
+          handler: () => { response('AtividadeSinglePage'); }
         }
+      );
+      if (Number(role) >= 5) {
+        buttons.push({
+          text: 'Participantes',
+          icon: 'person-add',
+          handler: () => { response('AdicionarParticipantePage'); }
+        });
       }
       this.actionSheetCtrl.create({
         title: 'Opções',
-        buttons: [
-          {
-            text: role_options['text'],
-            icon: role_options['icon'],
-            handler: () => {
-              response({
-                role_options: role_options,
-                atividade: atividade,
-              });
-            }
-          }
-        ]
+        buttons: buttons
       }).present();
     })
   }

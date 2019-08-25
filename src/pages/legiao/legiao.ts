@@ -61,8 +61,8 @@ export class LegiaoPage {
     });
   }
   opcoesAtividade(atividade) {
-    this.atividadesProvider.opcoesAtividade({ atividade: atividade, role: this.usuario_logado.role }).then(retorno => {
-      this.navCtrl.push(retorno['role_options']['page'], { atividade: retorno['atividade'] });
+    this.atividadesProvider.opcoesAtividade({ role: this.usuario_logado.role }).then(retorno  => {
+      this.navCtrl.push(retorno.toString(), { atividade: atividade });
     });
   }
   opcoesLegiao() {

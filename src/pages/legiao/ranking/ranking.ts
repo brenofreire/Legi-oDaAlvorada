@@ -32,7 +32,7 @@ export class RankingPage {
       this.buscaRanking();
     });
   }
-  async buscaRanking() {
+  async buscaRanking(e?) {
     let loading = this.loadingCtrl.create({
       content: 'Carregando ranking...'
     }); loading.present();

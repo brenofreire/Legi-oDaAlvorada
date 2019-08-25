@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { ModalController } from 'ionic-angular';
 
 /*
   Generated class for the ToolsProvider provider.
@@ -10,7 +12,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ToolsProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(
+    public http: HttpClient,
+    public banco: Storage,
+    public modalCtrl: ModalController,
+  ) {
   }
   slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -29,5 +35,18 @@ export class ToolsProvider {
       .replace(/-+/g, '-'); // collapse dashes
   
     return str;
+  }
+  getUsuariosLogado(){
+    return new Promise((response, error: Function) => {
+      error => {
+        this.modalCtrl.create('UserPage', {}, {
+          enableBackdropDismiss: false
+        });
+      }
+      this.banco.get('usuario-logado').then(retorno => {
+        if(retorno) response(retorno['usuario']);
+        else error();
+      }).catch(() => { error(); });
+    });
   }
 }

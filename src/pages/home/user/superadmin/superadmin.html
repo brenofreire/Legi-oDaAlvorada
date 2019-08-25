@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Superadmin</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-searchbar placeholder="Buscar usuário..." [(ngModel)]="buscaValor"></ion-searchbar>
+  </div>
+  <ng-template [ngIf]="usuarios" ngFor let-usuario [ngForOf]="usuarios">
+    <ion-item>{{ usuario.nome }}</ion-item>
+  </ng-template>
+</ion-content>

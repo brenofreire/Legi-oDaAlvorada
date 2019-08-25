@@ -12,6 +12,10 @@
   <div class="loader" *ngIf="!usuario_logado">
     <ion-spinner name="dots"></ion-spinner>
   </div>
+  <!-- Refresher de conteúdo -->
+  <ion-refresher slot="fixed" (ionRefresh)="atualizarPerfil($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <!-- CARD DO USUÁRIO -->
   <ng-template [ngIf]="usuario_logado">
     <ion-item icon-left>

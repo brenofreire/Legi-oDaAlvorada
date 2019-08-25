@@ -39,7 +39,7 @@
         </ion-list>
       </div>
       <!-- caso não tenha usuário para adicionar -->
-      <h2 *ngIf="!usuarios">Nenhum usuário para adicionar</h2>
+      <h2 *ngIf="usuarios == null && page_options.participantes_segment == 'adicionar'">Nenhum usuário para adicionar</h2>
       <!-- usuários para remover -->
       <ion-list *ngSwitchCase="'remover'">
         <!-- for => usuários para remover -->
@@ -54,7 +54,7 @@
           </button>
         </ion-item>
         <!-- caso não tenha usuário para remover -->
-        <h2 *ngIf="!usuarios_remover">Nenhum usuário cadastrado</h2>
+        <h2 *ngIf="usuarios_remover == null && page_options.participantes_segment == 'remover'">Nenhum usuário cadastrado</h2>
       </ion-list>
     </div>
   </div>

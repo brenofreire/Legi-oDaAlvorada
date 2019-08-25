@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, ModalController, ActionSheetController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ApiProvider } from '../../../../providers/api/api';
+import { ToolsProvider } from '../../../../providers/tools/tools';
 
 @IonicPage()
 @Component({
@@ -22,10 +23,14 @@ export class AtividadeSinglePage {
     public api: ApiProvider,
     public banco: Storage,
     public modalCtrl: ModalController,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    public tools: ToolsProvider
   ) {
     this.atividade = this.navParams.get('atividade');
     this.carregarParticipantes();
+  }
+  async ionViewWillEnter(){
+    await this.tools.getUsuariosLogado();
   }
   carregarParticipantes() {
     this.api.get('/legiao/get_usuarios_legiao?atividade=' + this.atividade.id).then(participantes => {

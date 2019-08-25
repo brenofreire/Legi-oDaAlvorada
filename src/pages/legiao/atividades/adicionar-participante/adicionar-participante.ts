@@ -15,8 +15,8 @@ export class AdicionarParticipantePage {
     usuarios_carregados: false
   }
   public atividade;
-  public usuarios: any;
-  public usuarios_remover: any;
+  public usuarios = [];
+  public usuarios_remover = [];
 
   constructor(
     public navCtrl: NavController,
@@ -28,8 +28,8 @@ export class AdicionarParticipantePage {
   }
   getUsuarios() {
     this.api.get('legiao/get_usuarios_legiao?capitulo=' + this.atividade.capitulo + '&atividade=' + this.atividade.id).then(usuarios => {
-      this.usuarios = usuarios['usuarios'];
-      this.usuarios_remover = usuarios['usuarios_remover'];
+      this.usuarios = usuarios['usuarios'].length ? usuarios['usuarios'] : undefined;
+      this.usuarios_remover = usuarios['usuarios_remover'].length ? usuarios['usuarios_remover'] : undefined;
       this.page_options.usuarios_carregados = true;
     });
   }
@@ -52,12 +52,11 @@ export class AdicionarParticipantePage {
       if (adicionar)
         this.getUsuarios();
     }).catch(error => {
-      let toast_erro_adicionar = this.toastCtrl.create({
+      this.toastCtrl.create({
         message: 'Erro ao mudar status do participante',
         position: 'bottom',
         duration: 3000,
-      });
-      toast_erro_adicionar.present();
+      }).present();
     });
   }
 }

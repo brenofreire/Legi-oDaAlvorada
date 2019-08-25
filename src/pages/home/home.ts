@@ -27,24 +27,24 @@ export class HomePage {
     });
   }
   ionViewDidLoad() {
-
+    // this.atualizarPerfil();
   }
   ionViewWillEnter() {
     this.storage.get('usuario-cadastro').then(usuario_cadastro => {
       if (usuario_cadastro) {
-        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage",{}, {
-          enableBackdropDismiss: false,              
+        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage", {}, {
+          enableBackdropDismiss: false,
         });
         modal_obrigado.present();
       } else {
         this.storage.get('usuario-logado').then(usuario_logado => {
           if (!usuario_logado) {
-            let modal_user = this.modalCtrl.create("UserPage",{}, {
-              enableBackdropDismiss: false,              
+            let modal_user = this.modalCtrl.create("UserPage", {}, {
+              enableBackdropDismiss: false,
             });
             modal_user.present();
             modal_user.onDidDismiss(usuario_logado => {
-              if(usuario_logado) this.usuario_logado = usuario_logado;
+              if (usuario_logado) this.usuario_logado = usuario_logado;
             });
           } else {
             this.usuario_logado = usuario_logado['usuario'];
@@ -62,9 +62,9 @@ export class HomePage {
         handler: () => {
           this.navCtrl.push('RankingPage');
         }
-      }      
+      }
     );
-    if(Number(this.usuario_logado['role']) >= 5){
+    if (Number(this.usuario_logado['role']) >= 5) {
       buttons.push(
         {
           text: 'Nova Atividade',
@@ -78,6 +78,17 @@ export class HomePage {
           icon: 'person',
           handler: () => {
             this.navCtrl.push("UserCadastrosPage");
+          }
+        }
+      );
+    }
+    if (Number(this.usuario_logado['role']) >= 7) {
+      buttons.push(
+        {
+          text: 'Superadmin',
+          icon: 'lock',
+          handler: () => {
+            this.navCtrl.push("SuperadminPage");
           }
         }
       );
@@ -96,15 +107,24 @@ export class HomePage {
           text: 'Sim',
           handler: () => {
             this.storage.set('usuario-logado', null);
-            let modal_user = this.modalCtrl.create('UserPage',{}, {
-              enableBackdropDismiss: false,              
+            let modal_user = this.modalCtrl.create('UserPage', {}, {
+              enableBackdropDismiss: false,
             }); modal_user.present();
             modal_user.onDidDismiss(usuario_logado => {
-              if(usuario_logado) this.usuario_logado = usuario_logado;
+              if (usuario_logado) this.usuario_logado = usuario_logado;
             });
           }
         }
       ]
     }).present();
+  }
+  atualizarPerfil(e) {
+    this.api.post('conta/get_perfil', this.usuario_logado).then(perfil => {
+      let usuario_logado = { usuario: perfil }
+      this.usuario_logado = perfil;
+      this.storage.set('usuario-logado', usuario_logado);
+      if (e)
+        e.complete();
+    }).catch(() => { e.complete(); });
   }
 }
