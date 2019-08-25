@@ -16,10 +16,11 @@
         <img src="https://loremflickr.com/320/240">
       </ion-avatar>
       <p>{{ i + 1 }}º {{ demolays[demolay].demolay.nome }} </p>
-      <small>{{demolays[demolay].pontuacao_soma }} pontos</small>
+      <small>{{demolays[demolay].pontuacao_soma }} pontos</small><br>
+      <small><b>{{demolays[demolay].elo }}</b></small>
     </ion-item>
   </ng-template>
   <div class="vazio" *ngIf="!page_options.carregando && !demolays">
-    <h2>Nenhum DeMolay concluiu atividade ainda...</h2>
+    Nenhum DeMolay concluiu atividade ainda
   </div>
 </ion-content>
