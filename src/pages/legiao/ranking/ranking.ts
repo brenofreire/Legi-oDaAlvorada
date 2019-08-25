@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ApiProvider } from '../../../providers/api/api';
 import { Storage } from '@ionic/storage';
+import { ToolsProvider } from '../../../providers/tools/tools';
 
 
 @IonicPage()
@@ -23,14 +24,16 @@ export class RankingPage {
     public api: ApiProvider,
     public storage: Storage,
     public loadingCtrl: LoadingController,
+    public tools: ToolsProvider,
   ) {
-  }
-
-  async ionViewWillLoad() {
-    this.storage.get('usuario-logado').then((retorno) => {
-      this.usuario_logado = retorno['usuario'];
-      this.buscaRanking();
-    });
+  }  
+  async ionViewDidLoad() {
+    this.usuario_logado = await this.tools.getUsuarioLogado();
+    if (this.usuario_logado)
+      this.storage.get('usuario-logado').then((retorno) => {
+        this.usuario_logado = retorno['usuario'];
+        this.buscaRanking();
+      });
   }
   async buscaRanking(e?) {
     let loading = this.loadingCtrl.create({
@@ -48,6 +51,6 @@ export class RankingPage {
       });
   }
   objectKeys(obj) {
-   return Object.keys(obj);
+    return Object.keys(obj);
   }
 }

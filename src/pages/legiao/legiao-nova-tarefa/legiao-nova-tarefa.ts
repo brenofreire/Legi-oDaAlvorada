@@ -23,11 +23,12 @@ export class LegiaoNovaTarefaPage {
   public page_options = {
     tipos: [],
     loaded: false,
-    retorno_cadastro: { 
+    retorno_cadastro: {
       ok: false,
       mensagem: null,
     }
   }
+  public usuario_logado;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,12 +38,14 @@ export class LegiaoNovaTarefaPage {
     public banco: Storage
   ) {
   }
-
-  ionViewDidLoad() {
-    this.api.get('legiao/get_tipos_tarefa').then(tipos => {
-      this.page_options.tipos = tipos['tipos'];
-      this.page_options.loaded = true;
-    });
+  
+  async ionViewDidLoad() {
+    this.usuario_logado = await this.tools.getUsuarioLogado();
+    if (this.usuario_logado)
+      this.api.get('legiao/get_tipos_tarefa').then(tipos => {
+        this.page_options.tipos = tipos['tipos'];
+        this.page_options.loaded = true;
+      });
   }
   cadastrarTarefa() {
     this.tarefa.slug = this.tools.slugify(this.tarefa.nome);
@@ -65,7 +68,7 @@ export class LegiaoNovaTarefaPage {
         }).present();
       });
     }).catch(error => {
-      console.log(error);      
+      console.log(error);
     });
   }
   goToHomePage() {

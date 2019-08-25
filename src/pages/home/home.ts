@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
+import { ToolsProvider } from '../../providers/tools/tools';
 
 @IonicPage()
 @Component({
@@ -21,37 +22,15 @@ export class HomePage {
     public modalCtrl: ModalController,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
+    public tools: ToolsProvider,
   ) {
-    this.events.subscribe('usuario-logado', usuario => {
-      this.usuario_logado = usuario;
+    this.events.subscribe('usuario-logado', retorno => { 
+      this.usuario_logado = retorno; 
     });
   }
-  ionViewDidLoad() {
-    // this.atualizarPerfil();
-  }
-  ionViewWillEnter() {
-    this.storage.get('usuario-cadastro').then(usuario_cadastro => {
-      if (usuario_cadastro) {
-        let modal_obrigado = this.modalCtrl.create("ObrigadoCadastrarPage", {}, {
-          enableBackdropDismiss: false,
-        });
-        modal_obrigado.present();
-      } else {
-        this.storage.get('usuario-logado').then(usuario_logado => {
-          if (!usuario_logado) {
-            let modal_user = this.modalCtrl.create("UserPage", {}, {
-              enableBackdropDismiss: false,
-            });
-            modal_user.present();
-            modal_user.onDidDismiss(usuario_logado => {
-              if (usuario_logado) this.usuario_logado = usuario_logado;
-            });
-          } else {
-            this.usuario_logado = usuario_logado['usuario'];
-          }
-        }).catch(() => { });
-      }
-    }).catch(() => { });
+  async ionViewWillEnter() {
+    let usuario_cadastrado = <any> await this.tools.getUsuarioCadastrado();
+    if(!usuario_cadastrado) this.usuario_logado = await this.tools.getUsuarioLogado();
   }
   actionSheetOpcoes() {
     let buttons = [];
@@ -106,12 +85,8 @@ export class HomePage {
         {
           text: 'Sim',
           handler: () => {
-            this.storage.set('usuario-logado', null);
-            let modal_user = this.modalCtrl.create('UserPage', {}, {
-              enableBackdropDismiss: false,
-            }); modal_user.present();
-            modal_user.onDidDismiss(usuario_logado => {
-              if (usuario_logado) this.usuario_logado = usuario_logado;
+            this.storage.set('usuario-logado', undefined).then(() => {
+              this.tools.getUsuarioLogado();
             });
           }
         }

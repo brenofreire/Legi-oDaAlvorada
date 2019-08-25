@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ActionSheetController, ToastController } from 'ionic-angular';
 import { ApiProvider } from '../../../../providers/api/api';
+import { ToolsProvider } from '../../../../providers/tools/tools';
 
 @IonicPage()
 @Component({
@@ -23,9 +24,11 @@ export class AdicionarParticipantePage {
     public navParams: NavParams,
     public api: ApiProvider,
     public toastCtrl: ToastController,
+    public tools: ToolsProvider,
   ) {
     this.atividade = this.navParams.get('atividade');
   }
+  public usuario_logado;
   getUsuarios() {
     this.api.get('legiao/get_usuarios_legiao?capitulo=' + this.atividade.capitulo + '&atividade=' + this.atividade.id).then(usuarios => {
       this.usuarios = usuarios['usuarios'].length ? usuarios['usuarios'] : undefined;
@@ -33,9 +36,13 @@ export class AdicionarParticipantePage {
       this.page_options.usuarios_carregados = true;
     });
   }
-  ionViewWillEnter() {
-    this.getUsuarios();
-    this.page_options.participantes_segment = 'adicionar'
+
+  async ionViewDidEnter() {
+    this.usuario_logado = await this.tools.getUsuarioLogado();
+    if (this.usuario_logado) {
+      this.getUsuarios();
+      this.page_options.participantes_segment = 'adicionar'
+    }
   }
   alterarStatusUsuarioAtividade(acao, usuario) {
     // Criar enddpoint para adicionar ou remover usuário.
@@ -47,7 +54,7 @@ export class AdicionarParticipantePage {
       role: Number(usuario['role']),
       acao: acao,
     }
-    console.log(usuario);    
+    console.log(usuario);
     this.api.post('legiao/registrar_participante', obj).then(adicionar => {
       if (adicionar)
         this.getUsuarios();

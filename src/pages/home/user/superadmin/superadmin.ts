@@ -26,7 +26,7 @@ export class SuperadminPage {
   ionViewDidLoad() {
   }
   async ionViewWillEnter(){
-    this.usuario_logado = await this.tools.getUsuariosLogado();
+    this.usuario_logado = await this.tools.getUsuarioLogado();
   }
   ionViewDidEnter(){
     this.api.get('conta/get_usuarios_geral?capitulo=' + this.usuario_logado['capitulo'] + '&buscaValor=' + this.buscaValor).then(retorno => {

@@ -55,7 +55,7 @@ export class UserPage {
       this.page_options.mostrar_cadastrar = false;
       this.storage.set('cadastro', true);
       this.storage.set('usuario-cadastro', this.login);
-      this.modalCtrl.create("ObrigadoCadastrarPage").present();
+      this.modalCtrl.create("ObrigadoCadastrarPage", {}, { enableBackdropDismiss: false, }).present();
     }).catch(error => {
       loading.dismiss();
       this.toastCtrl.create({
@@ -71,7 +71,6 @@ export class UserPage {
     this.api.post('conta/logar', this.login).then(logar => {
       if (logar['usuario']) {
         this.storage.set('usuario-logado', { usuario: logar['usuario'] });
-        this.events.publish('usuario_logou', logar['usuario']);
         this.viewCtrl.dismiss(logar['usuario']);
         loading.dismiss();
         // this.navCtrl.setRoot('HomePage');

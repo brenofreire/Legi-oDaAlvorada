@@ -16,6 +16,7 @@ export class AtividadeSinglePage {
     search_bar: true,
     carregando: true,
   }
+  public usuario_logado;
 
   constructor(
     public navCtrl: NavController,
@@ -27,10 +28,10 @@ export class AtividadeSinglePage {
     public tools: ToolsProvider
   ) {
     this.atividade = this.navParams.get('atividade');
-    this.carregarParticipantes();
   }
   async ionViewWillEnter(){
-    await this.tools.getUsuariosLogado();
+    this.usuario_logado = await this.tools.getUsuarioLogado();
+    if(this.usuario_logado) this.carregarParticipantes();
   }
   carregarParticipantes() {
     this.api.get('/legiao/get_usuarios_legiao?atividade=' + this.atividade.id).then(participantes => {

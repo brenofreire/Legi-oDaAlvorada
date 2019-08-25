@@ -3,7 +3,7 @@
     <ion-title>Cadastros</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
   <div class="loader" *ngIf="!page_options.loaded">
     <ion-spinner name="dots"></ion-spinner>
   </div>
@@ -15,24 +15,20 @@
       <h2>{{ usuario.nome }}</h2>
       <p>{{ usuario.CID }}</p>
       <p>{{ usuario.email }}</p>
-      <button ion-button color="secondary" (click)="modificarStatusUsuario(1, usuario)">
+      <button ion-button color="secondary" (click)="modificarStatusUsuario(1, usuario)" icon-left>
         <ion-icon name="checkbox"></ion-icon>
         Aprovar
       </button>
-      <button ion-button color="primary" (click)="modificarStatusUsuario(2, usuario)">
+      <button ion-button color="danger" (click)="modificarStatusUsuario(2, usuario)" icon-left>
         <ion-icon name="close-circle"></ion-icon>
         Reprovar
-      </button>
-      <button ion-button color="danger" (click)="modificarStatusUsuario(0, usuario)">
-        <ion-icon name="trash"></ion-icon>
-        Excluir
       </button>
       <div class="status_alterado" *ngIf="usuario.status != 3">
         <button ion-button>Ação realizada!</button>
       </div>
     </ion-item>
   </ion-list>
-  <h2 *ngIf="page_options.loaded && !usuarios">
-    Nenhum usuário encontrado
-  </h2>
+  <div class="vazio" *ngIf="page_options.loaded && !usuarios">
+    <h2>Nenhuma solicitação à ser aprovada.</h2>
+  </div>
 </ion-content>

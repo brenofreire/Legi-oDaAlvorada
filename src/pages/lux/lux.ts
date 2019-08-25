@@ -37,25 +37,9 @@ export class LuxPage {
   ) {
   }
 
-  async ionViewWillEnter(){
-    this.usuario_logado = await this.tools.getUsuariosLogado();
-  }
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
+    this.usuario_logado = await this.tools.getUsuarioLogado();
     if(this.usuario_logado) this.getAtividadesLux();
-    // this.banco.get('usuario-logado').then(usuario_logado => {
-    //   this.usuario_logado = usuario_logado['usuario'];
-    //   if (usuario_logado)
-    //     this.getAtividadesLux();
-    //   else {
-    //     let modal_user = this.modalCtrl.create("UserPage", {}, {
-    //       enableBackdropDismiss: false,              
-    //     });
-    //     modal_user.present();
-    //     modal_user.onDidDismiss(usuario_logado => {
-    //       if (usuario_logado) this.usuario_logado = usuario_logado;
-    //     });
-    //   }
-    // });
   }
   getAtividadesLux() {
     this.api.get('legiao/get_atividades_lux?capitulo=' + this.usuario_logado['capitulo']).then(atividades => {

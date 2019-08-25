@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ActionSheetController, ModalContro
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { AtividadesProvider } from '../../providers/atividades/atividades';
+import { ToolsProvider } from '../../providers/tools/tools';
 
 
 @IonicPage()
@@ -24,31 +25,12 @@ export class LegiaoPage {
     public actionSheetCtrl: ActionSheetController,
     public atividadesProvider: AtividadesProvider,
     public modalCtrl: ModalController,
+    public tools: ToolsProvider,
   ) {
-  }
-  ionViewDidEnter() {
-    this.banco.get('usuario-logado').then(usuario_logado => {
-      if (usuario_logado) {
-        this.usuario_logado = usuario_logado['usuario'];
-        this.getAtividadesCapitulo();
-      } else {
-        let modal_user = this.modalCtrl.create("UserPage", {}, {
-          enableBackdropDismiss: false,
-        });
-        modal_user.present();
-        modal_user.onDidDismiss(usuario_logado => {
-          if (usuario_logado) this.usuario_logado = usuario_logado;
-        });
-      }
-    }).catch(() => {
-      let modal_user = this.modalCtrl.create("UserPage", {}, {
-        enableBackdropDismiss: false,
-      });
-      modal_user.present();
-      modal_user.onDidDismiss(usuario_logado => {
-        if (usuario_logado) this.usuario_logado = usuario_logado;
-      });
-    });
+  }  
+  async ionViewDidEnter() {
+    this.usuario_logado = await this.tools.getUsuarioLogado();
+    if(this.usuario_logado) this.getAtividadesCapitulo();
   }
   getAtividadesCapitulo() {
     this.api.get('legiao/get_atividades_legiao?capitulo=' + this.usuario_logado['capitulo']).then(atividades => {

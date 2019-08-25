@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { ApiProvider } from '../../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home';
@@ -19,6 +19,7 @@ export class ObrigadoCadastrarPage {
     public api: ApiProvider,
     public storage: Storage,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
   ) {
     this.storage.get('usuario-cadastro').then(data => {
       this.login = data;
@@ -29,12 +30,14 @@ export class ObrigadoCadastrarPage {
     
   }
   verificarConta(){
+    let loading = this.loadingCtrl.create({ content: 'Verificando status...' }); loading.present();
     this.api.get('conta/verificar_status/' + this.login.cid).then(data => {
+      loading.dismiss();
       if(data['status'] == 1){
         this.storage.set('usuario-cadastro', null);        
         let alert = this.alertCtrl.create({
           title: 'Cadastro aprovado!',
-          subTitle: 'Você será logado.',
+          subTitle: 'Agora é só fazer login.',
           message: 'Clique em ok para confirmar...',
           buttons: ['Ok']
         });
@@ -44,12 +47,17 @@ export class ObrigadoCadastrarPage {
         this.alertCtrl.create({
           title: 'Eita!',
           subTitle: 'Sua conta ainda não foi confirmada.',
-          message: 'O seu cadastro ainda não foi aprovado pela diretoria de seu capítulo.',
+          message: 'O seu cadastro ainda não foi aprovado pela diretoria do seu capítulo.',
           buttons: ['OK']
         }).present();
       }
     }).catch(error => {
-      console.log(error);
+      loading.dismiss();
+      this.alertCtrl.create({
+        title: 'Erro ao verificar conta',
+        subTitle: 'Tente novamente mais tarde...',
+        buttons: ['OK'],
+      }).present();
     });
   }
 }
