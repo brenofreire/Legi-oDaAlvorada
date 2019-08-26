@@ -41,11 +41,12 @@ export class RankingPage {
     }); loading.present();
     if (this.usuario_logado)
       this.api.get('legiao/ranking_capitulo?capitulo=' + this.usuario_logado['capitulo']).then(demolays => {
-        this.demolays = JSON.parse(JSON.stringify(demolays));
-        console.log(this.demolays);
+        e.complete();
+        this.demolays = demolays;
         this.page_options.carregando = false;
         loading.dismiss();
       }).catch(() => {
+        e.complete();
         this.page_options.carregando = false;
         loading.dismiss();
       });

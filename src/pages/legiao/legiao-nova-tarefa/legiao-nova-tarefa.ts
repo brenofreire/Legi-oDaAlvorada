@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { ApiProvider } from '../../../providers/api/api';
 import { ToolsProvider } from '../../../providers/tools/tools';
 import { Storage } from '@ionic/storage';
@@ -35,7 +35,8 @@ export class LegiaoNovaTarefaPage {
     public api: ApiProvider,
     public toastCtrl: ToastController,
     public tools: ToolsProvider,
-    public banco: Storage
+    public banco: Storage,
+    public loadingCtrl: LoadingController,
   ) {
   }
   
@@ -48,11 +49,13 @@ export class LegiaoNovaTarefaPage {
       });
   }
   cadastrarTarefa() {
+    let loading = this.loadingCtrl.create({ content: 'Criando atividade... '}); loading.present();
     this.tarefa.slug = this.tools.slugify(this.tarefa.nome);
     this.banco.get('usuario-logado').then(usuario_logado => {
       this.tarefa['capitulo'] = usuario_logado['usuario']['capitulo'];
       this.tarefa['status'] = 1;
       this.api.post('legiao/cadastrar_tarefa', this.tarefa).then(cadastro_tarefa => {
+        loading.dismiss();
         this.page_options.retorno_cadastro.ok = cadastro_tarefa['ok'];
         this.page_options.retorno_cadastro.mensagem = cadastro_tarefa['mensagem'];
         this.toastCtrl.create({
@@ -61,6 +64,7 @@ export class LegiaoNovaTarefaPage {
           position: 'top'
         }).present();
       }, error => {
+        loading.dismiss();
         this.toastCtrl.create({
           message: error['error'],
           duration: 3000,
@@ -68,6 +72,7 @@ export class LegiaoNovaTarefaPage {
         }).present();
       });
     }).catch(error => {
+      loading.dismiss();
       console.log(error);
     });
   }

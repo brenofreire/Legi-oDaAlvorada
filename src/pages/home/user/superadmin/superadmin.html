@@ -8,7 +8,16 @@
   <div>
     <ion-searchbar placeholder="Buscar usuário..." [(ngModel)]="buscaValor"></ion-searchbar>
   </div>
-  <ng-template [ngIf]="usuarios" ngFor let-usuario [ngForOf]="usuarios">
-    <ion-item>{{ usuario.nome }}</ion-item>
+  <div class="loader" *ngIf="page_options.carregando && !usuarios ">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+  <ng-template [ngIf]="usuarios && !page_options.carregando">
+    <ion-item *ngFor="let i of objectKeys(usuarios)">
+      <p><b>Nome</b> {{ usuarios[i].nome }}</p>
+      <small><b>Capítulo</b> {{ usuarios[i].capitulo }}</small>
+      <button item-end ion-button clear (click)="opcoesUsuario(usuarios[i], $event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-item>
   </ng-template>
 </ion-content>
