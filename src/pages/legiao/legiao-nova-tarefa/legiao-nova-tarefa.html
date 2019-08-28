@@ -29,7 +29,7 @@
       <ion-input type="text" placeholder="Ex: 40" [(ngModel)]="tarefa.pontuacao"></ion-input>
     </div>
     <!-- cnie -->
-    <div class="campo-stacked">
+    <div class="campo-stacked" *ngIf="tarefa.lux != '1'">
       <ion-label class="label-stacked" for="cnie" stacked>CNIE</ion-label>
       <ion-item no-lines no-padding>
         <ion-select [(ngModel)]="tarefa.cnie" name="cnie" placeholder="Faz parte da CNIE?">
@@ -39,7 +39,7 @@
       </ion-item>
     </div>
     <!-- lux -->
-    <div class="campo-stacked">
+    <div class="campo-stacked" *ngIf="tarefa.cnie != '1'">
       <ion-label class="label-stacked" for="tipo" stacked>Tarefa LUX</ion-label>
       <ion-item no-lines no-padding>
         <ion-select [(ngModel)]="tarefa.lux" name="tipo" placeholder="Faz parte do módulo LUX?">
