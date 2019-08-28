@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, PopoverController, ModalController
 import { Storage } from '@ionic/storage';
 import { ApiProvider } from '../../../../providers/api/api';
 import { ToolsProvider } from '../../../../providers/tools/tools';
+import { UsuarioProvider } from '../../../../providers/usuario/usuario';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class AtividadeSinglePage {
     public banco: Storage,
     public modalCtrl: ModalController,
     public actionSheetCtrl: ActionSheetController,
-    public tools: ToolsProvider
+    public tools: ToolsProvider,
+    public usuarioProvider: UsuarioProvider,
   ) {
     this.atividade = this.navParams.get('atividade');
   }
@@ -36,7 +38,6 @@ export class AtividadeSinglePage {
   carregarParticipantes() {
     this.api.get('/legiao/get_usuarios_legiao?atividade=' + this.atividade.id).then(participantes => {
       this.atividade['participantes'] = participantes['usuarios_remover'];
-      console.log(this.atividade['participantes']);      
       this.page_options.carregando = false;
     }).catch(() => { this.atividade['participantes'] = null; this.page_options.carregando = false; });
   }
@@ -45,5 +46,8 @@ export class AtividadeSinglePage {
       atividade: this.atividade,
     });
     modal_adicionar_participante.present();
+  }
+  abrirUsuario(usuario){
+    this.navCtrl.push('DemolayPage', {demolay: usuario});
   }
 }

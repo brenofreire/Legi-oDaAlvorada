@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the DemolayPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-demolay',
@@ -15,11 +8,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class DemolayPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  public demolay;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DemolayPage');
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+  ) {
+    this.demolay = this.navParams.get('demolay');
+    console.log(this.demolay);
   }
 
 }

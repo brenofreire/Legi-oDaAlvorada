@@ -58,11 +58,6 @@ export class LegiaoNovaTarefaPage {
         loading.dismiss();
         this.page_options.retorno_cadastro.ok = cadastro_tarefa['ok'];
         this.page_options.retorno_cadastro.mensagem = cadastro_tarefa['mensagem'];
-        this.toastCtrl.create({
-          message: cadastro_tarefa['mensagem'],
-          duration: 3000,
-          position: 'top'
-        }).present();
       }, error => {
         loading.dismiss();
         this.toastCtrl.create({

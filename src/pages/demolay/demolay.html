@@ -3,7 +3,32 @@
     <ion-title>Demolay</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-
+  <!-- CARD DO USUÁRIO -->
+  <ng-template [ngIf]="demolay">
+    <ion-item icon-left>
+      <ion-icon name="person"></ion-icon>
+      <b>DM</b> {{ demolay.cid }}, {{ demolay.nome }}
+    </ion-item>
+    <ion-item icon-left>
+      <ion-icon name="bowtie"></ion-icon>
+      <b>Capítulo</b> {{ demolay.capitulo }}
+    </ion-item>
+    <ion-item icon-left>
+      <ion-icon name="mail"></ion-icon>
+      <b>E-mail</b> {{ demolay.email }}
+    </ion-item>
+    <ion-item icon-left>
+      <ion-icon name="podium"></ion-icon>
+      <b>Pontuação</b> {{ demolay.pontuacao }} Pontos
+    </ion-item>
+    <ion-item icon-left>
+      <ion-icon name="medal"></ion-icon>
+      <b>Elo</b> {{ demolay.elo }}
+    </ion-item>
+    <ion-item icon-left no-lines>
+      <ion-icon name="lock"></ion-icon>
+      <b>Tipo de Usuário</b> {{ demolay.role }}
+    </ion-item>
+  </ng-template>
 </ion-content>

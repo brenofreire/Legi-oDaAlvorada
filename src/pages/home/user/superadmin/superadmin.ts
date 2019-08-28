@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, AlertController, ActionSheetController, ToastController } from 'ionic-angular';
 import { ApiProvider } from '../../../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { ToolsProvider } from '../../../../providers/tools/tools';
@@ -26,6 +26,7 @@ export class SuperadminPage {
     public tools: ToolsProvider,
     public alertCtrl: AlertController,
     public actionSheetCtrl: ActionSheetController,
+    public toastCtrl: ToastController,
   ) { }
 
   ionViewDidLoad() {
@@ -63,15 +64,24 @@ export class SuperadminPage {
                 {
                   text: 'OK',
                   handler: capitulo => {
-                    this.alertCtrl.create({
-                      title: `Deseja realmente alterar o capítulo de  ${usuario.nome}?`,
-                      buttons: ['Cancelar', {
-                        text: 'Confirmar alteração',
-                        handler: () => {
-                          console.log('vai mudar pro ', capitulo);
-                        }
-                      }]
-                    }).present();
+                    if (!isNaN(capitulo[0]))
+                      this.alertCtrl.create({
+                        title: `Deseja realmente alterar o capítulo de  ${usuario.nome}?`,
+                        buttons: ['Cancelar', {
+                          text: 'Confirmar alteração',
+                          handler: () => {
+                            usuario['capitulo'] = capitulo[0];
+                            this.modificarUsuario(usuario, 'Capitulo do usário alterado com sucesso!');
+                          }
+                        }]
+                      }).present();
+                    else {
+                      this.toastCtrl.create({
+                        message: 'O capítulo precisa ser um número.',
+                        duration: 3000,
+                      }).present();
+                      return false;
+                    }
                   }
                 }
               ]
@@ -95,9 +105,9 @@ export class SuperadminPage {
                   value: 'Diretoria'
                 },
                 {
-                  type: 'Superadmin',
-                  label: 'Superadmin',
-                  value: 'Superadmin'
+                  type: 'Admin',
+                  label: 'Admin',
+                  value: 'Admin'
                 },
               ],
               buttons: [
@@ -112,7 +122,13 @@ export class SuperadminPage {
                         {
                           text: 'Confirmar alteração',
                           handler: () => {
-                            console.log('vai virar', role);                            
+                            let roles = {
+                              'Usuario comum': 1,
+                              'Diretoria': 5,
+                              'Admin': 7,
+                            }
+                            usuario['role'] = roles[role];
+                            this.modificarUsuario(usuario, 'Privilégio de usuário alterado com sucesso!');
                           }
                         }
                       ]
@@ -136,7 +152,8 @@ export class SuperadminPage {
                 {
                   text: 'Excluir',
                   handler: () => {
-                    console.log('Excluir', usuario);                    
+                    usuario['status'] = 0;
+                    this.modificarUsuario(usuario, 'Usuário excluído com sucesso!');
                   }
                 }
               ]
@@ -145,5 +162,15 @@ export class SuperadminPage {
         }
       ]
     }).present();
+  }
+  modificarUsuario(usuario, message){
+    this.api.post('conta/modificar_usuario', usuario).then(() => {
+      this.toastCtrl.create({ message: message, duration: 3000, position: 'top',}).present();
+    }).catch(() => {
+      this.toastCtrl.create({ 
+        message: 'Houve um erro ao alterar o capítulo do usuário! Tente novamente mais tarde...', 
+        duration: 3000
+      }).present();
+    });
   }
 }

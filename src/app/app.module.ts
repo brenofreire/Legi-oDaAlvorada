@@ -18,6 +18,7 @@ import { ToolsProvider } from '../providers/tools/tools';
 import { UserCadastrosPage } from '../pages/home/user/user-cadastros/user-cadastros';
 import { AdicionarParticipantePage } from '../pages/legiao/atividades/adicionar-participante/adicionar-participante';
 import { AtividadesProvider } from '../providers/atividades/atividades';
+import { UsuarioProvider } from '../providers/usuario/usuario';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { AtividadesProvider } from '../providers/atividades/atividades';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     ToolsProvider,
-    AtividadesProvider
+    AtividadesProvider,
+    UsuarioProvider
   ]
 })
 export class AppModule {}

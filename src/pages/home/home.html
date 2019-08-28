@@ -34,9 +34,13 @@
       <ion-icon name="podium"></ion-icon>
       <b>Pontuação</b> {{ usuario_logado.pontuacao }} Pontos
     </ion-item>
-    <ion-item icon-left no-lines>
+    <ion-item icon-left>
       <ion-icon name="medal"></ion-icon>
       <b>Elo</b> {{ usuario_logado.elo }}
+    </ion-item>
+    <ion-item icon-left no-lines>
+      <ion-icon name="lock"></ion-icon>
+      <b>Tipo de Usuário</b> {{ usuario_logado.role }}
     </ion-item>
     <button ion-button block (click)="logout()">Sair</button>
   </ng-template>

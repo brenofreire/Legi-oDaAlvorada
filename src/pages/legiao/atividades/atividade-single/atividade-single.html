@@ -29,7 +29,7 @@
       <ion-item>
         <h1>Participantes</h1>
       </ion-item>
-      <ion-item *ngFor="let participante of atividade.participantes">
+      <ion-item *ngFor="let participante of atividade.participantes" (click)="abrirUsuario(participante)">
         {{ participante.nome }}
       </ion-item>
     </ion-list>

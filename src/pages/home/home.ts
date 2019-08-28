@@ -28,7 +28,7 @@ export class HomePage {
       this.usuario_logado = retorno; 
     });
   }
-  async ionViewWillEnter() {
+  async ionViewDidEnter() {
     let usuario_cadastrado = <any> await this.tools.getUsuarioCadastrado();
     if(!usuario_cadastrado) this.usuario_logado = await this.tools.getUsuarioLogado();
   }
@@ -61,7 +61,7 @@ export class HomePage {
         }
       );
     }
-    if (Number(this.usuario_logado['role']) >= 7) {
+    if (Number(this.usuario_logado['role']) >= 8) {
       buttons.push(
         {
           text: 'Superadmin',

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { ModalController, Events } from 'ionic-angular';
+import { ModalController, Events, AlertController, ToastController } from 'ionic-angular';
 
 /*
   Generated class for the ToolsProvider provider.
@@ -16,6 +16,7 @@ export class ToolsProvider {
     public http: HttpClient,
     public banco: Storage,
     public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
     public events: Events,
   ) {
   }
@@ -40,7 +41,15 @@ export class ToolsProvider {
   getUsuarioLogado() {
     return new Promise(response => {
       // se não tiver usuario logado exibe modal de login
-      let error = () => {
+      let error = (retorno?) => {
+        if (retorno == 0){
+          this.toastCtrl.create({
+            message: 'O usuário foi excluído! Verifique com seu capítulo o motivo da exclusão...',
+            closeButtonText: 'Ok',
+            showCloseButton: true,
+          }).present();
+          this.banco.set('usuario-logado', undefined);
+        }
         let modal = this.modalCtrl.create('UserPage', {}, {
           enableBackdropDismiss: false
         }); modal.present();
@@ -52,8 +61,8 @@ export class ToolsProvider {
       }
       // busca o usuário logado
       this.banco.get('usuario-logado').then(retorno => {
-        if (retorno) response(retorno['usuario']);
-        else error();
+        if (retorno && retorno['usuario']['status'] != 0) response(retorno['usuario']);
+        else error(retorno['usuario']['status']);
       }).catch(() => { error(); });
     });
   }
